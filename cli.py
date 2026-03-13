@@ -2,7 +2,7 @@ from pathlib import Path
 
 import argparse
 
-from file_type_analysis import count_extensions
+from .file_type_analysis import count_extensions
 
 
 def build_parser():
