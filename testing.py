@@ -12,7 +12,7 @@ def count_extensions(parsed_path: Path):
     )
 
     return ext_dict
-my_path = Path( "C:\Users\aedan\Desktop\Maxone backup")
+my_path = Path(r"C:\Users\aedan\Desktop\Maxone backup")
 ext_dict =count_extensions(my_path)
 for i in ext_dict:
         print(f"There are {ext_dict[i]} files with the extension {i}")
