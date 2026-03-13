@@ -15,7 +15,6 @@ def main(argv):
     parser = build_parser()
     parsed = parser.parse_args(argv)
     parsed_path = Path(parsed.path)
-    print(parsed_path)
     extensions = count_extensions(parsed_path)
     for i in extensions:
         print(f"There are {extensions[i]} files with the extension {i}")
