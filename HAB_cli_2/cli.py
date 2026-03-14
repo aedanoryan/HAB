@@ -25,7 +25,7 @@ def main(argv):
     if args.cmd == "type_count":
         type_counter = count_file_type(args.root)
         for i in type_counter:
-            print(f"There are {i.values()} files with the extension {i}")
+            print(f"There are {type_counter[i]} files with the extension {i}")
     
     elif args.cmd == "largest":
         largest_count = show_largest(args.root)
@@ -33,4 +33,4 @@ def main(argv):
             print(f'{f.name} is {f.stat().st_size} bytes large' )
     elif args.cmd == "stats":
         stats = quick_stats(args.root)
-        print(f" Total Files : {stats["total_files"]}; Total Size : {stats["total_size"]} bytes ; Total Directories : {stats["total_directores"]}")
+        print(f" Total Files : {stats["total_files"]}; Total Size : {stats["total_size"]} bytes ; Total Directories : {stats["total_directories"]}")
