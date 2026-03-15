@@ -1,0 +1,30 @@
+{
+  "shield_bash": {
+    "attack": 6,
+    "defense": 6,
+    "heal": 0,
+    "target": "enemy",
+    "order": 1
+  },
+  "big_swing": {
+    "attack": 12,
+    "defense": 0,
+    "heal": 0,
+    "target": "enemy",
+    "order": 2
+  },
+  "healing_light": {
+    "attack": 0,
+    "defense": 0,
+    "heal": 10,
+    "target": "ally",
+    "order": 3
+  },
+  "guardian_stance": {
+    "attack": 0,
+    "defense": 12,
+    "heal": 0,
+    "target": "self",
+    "order": 4
+  }
+}
