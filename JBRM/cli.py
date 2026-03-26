@@ -2,6 +2,8 @@ import argparse
 
 from .file_funcs import inspect_ability, add_ability, update_ability, remove_ability
 
+from .read_save_file import read_file, save_file
+
 def build_parser():
     parser = argparse.ArgumentParser()
     sub = parser.add_subparsers(dest="cmd")
@@ -19,17 +21,27 @@ def build_parser():
 def main(argv):
     parser = build_parser()
     args = parser.parse_args(argv)
+    abilities = read_file()
 
     if args.cmd == "inspect":
-        all_abilities = inspect_ability()
-        for key in all_abilities:
+        # all_abilities = inspect_ability(abilities)
+        for key in abilities:
             print(f'{key} has these stats:')
-            for stat, value in all_abilities[key].items():
-                print(f'     {stat}: {value}') 
+            for stat, value in abilities[key].items():
+                print(f' {stat}: {value}') 
+
     elif args.cmd == "add":
-        pass
+        new_abilities = add_ability(abilities)
+        save_file(new_abilities)
+        print("ability added")
+        
     elif args.cmd == "update":
-        pass
+        updated_abilities = update_ability(abilities)
+        save_file(updated_abilities)
+        print("ability updated")
+
     elif args.cmd == "remove":
-        pass
+        updated_abilities = remove_ability(abilities)
+        save_file(updated_abilities)
+        print("ability removed")
 
