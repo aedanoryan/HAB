@@ -1,8 +1,8 @@
 
 
 
-# def inspect_ability(abilities: dict):
-#     return abilities
+def inspect_ability(abilities: dict):
+    return abilities
 
 
 
