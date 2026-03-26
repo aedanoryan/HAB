@@ -12,4 +12,4 @@ def read_file():
 def save_file(data):
     path = Path(__file__).parent / "abil.json"
     with open(path, "w") as f:
-        json.dump(data, f)
+        json.dump(data, f, indent=4)

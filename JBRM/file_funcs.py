@@ -45,24 +45,24 @@ def update_ability(abilities: dict):
         print(f"{key}: {value}")
     while True:
 
-        choice = input("Select attribute to update: >")
+        choice = input("Select attribute to update: >").lower()
         if choice in abilities[update]:
             while True: 
-                change = input("Selection attribute change: >").lower()
-                while True:
-                    if change == "target":
-                        if change in ("enemy", "ally"):
-                            abilities[update][choice] = change
-                            return abilities
-                        else:
-                            print("Invalid selection") 
-                    
+                if choice == "target":
+                    change = input(" Select target change (enemy, ally, or self) > ").lower()
+                    if change in ("enemy", "ally", "self"):
+                        abilities[update][choice] = change
+                        return abilities
                     else:
-                        try: 
-                            abilities[update][choice] = int(change)
-                            return abilities
-                        except ValueError:
-                            print("Invalid selecton")
+                        print("Invalid selection") 
+                
+                else:
+                    change = input("Input attribute change > ")
+                    try: 
+                        abilities[update][choice] = int(change)
+                        return abilities
+                    except ValueError:
+                        print("Invalid selection")
 
         else:
             print("Invalid selection")
