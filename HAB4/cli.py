@@ -1,5 +1,10 @@
 import argparse
 
+from pathlib import Path
+
+from read_save_json import open_file, save_file
+
+from file_funcs import inspect_file
 
 def build_parser():
     parser = argparse.ArgumentParser()
@@ -30,9 +35,14 @@ def build_parser():
 def main(argv):
     parser = build_parser()
     args = parser.parse_args(argv)
+    
+
+
 
     if args.cmd == "inspect":
-        pass
+        file_path = Path(args.root)
+        current_file = open_file(file_path)
+        inspect_file(current_file)
 
     elif args.cmd == "add":
         pass
@@ -49,4 +59,4 @@ def main(argv):
     elif args.cmd == "summary":
         pass
 
-    
+

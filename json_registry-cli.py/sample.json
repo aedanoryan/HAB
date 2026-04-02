@@ -1,0 +1,23 @@
+{
+  "fireball": {
+    "attack": 40,
+    "defense": 0,
+    "heal": 0,
+    "target": "enemy",
+    "order": 2
+  },
+  "guardian_stance": {
+    "attack": 5,
+    "defense": 30,
+    "heal": 0,
+    "target": "self",
+    "order": 1
+  },
+  "healing_light": {
+    "attack": 0,
+    "defense": 0,
+    "heal": 25,
+    "target": "ally",
+    "order": 3
+  }
+}
