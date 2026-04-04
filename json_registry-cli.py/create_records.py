@@ -3,10 +3,7 @@ from class_def import Record, RecordCollection
 from read_save_json import open_file
 
 
-file_path = "C:\Users\aedan\Desktop\Python\HAB\json_registry-cli.py\sample.json"
-
-
-def create_records():
+def create_records(file_path):
     record_dict = open_file(file_path)
     record_objects = {}
     for record_name, record_data in record_dict.items():
@@ -16,3 +13,4 @@ def create_records():
 
     collected = RecordCollection(record_objects)
     return collected
+
