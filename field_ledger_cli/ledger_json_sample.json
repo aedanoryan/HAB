@@ -1,0 +1,29 @@
+{
+    "alpha_report": {
+        "priority": 2,
+        "status": "open",
+        "tags": ["field", "urgent"],
+        "metadata": {
+            "created_by": "aedan",
+            "notes": "Initial scouting complete"
+        }
+    },
+    "beta_log": {
+        "priority": 1,
+        "status": "in_progress",
+        "tags": ["maintenance"],
+        "metadata": {
+            "created_by": "sam",
+            "notes": "Awaiting parts"
+        }
+    },
+    "gamma_entry": {
+        "priority": 3,
+        "status": "closed",
+        "tags": [],
+        "metadata": {
+            "created_by": "lee",
+            "notes": "Resolved without escalation"
+        }
+    }
+}

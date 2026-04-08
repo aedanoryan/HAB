@@ -204,22 +204,3 @@ def main(argv):
         f"attack = {record.attack}, defense = {record.defense}, "
         f"heal = {record.heal}, target = {record.target}, order = {record.order}")
         save_file(args.root, collection)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
