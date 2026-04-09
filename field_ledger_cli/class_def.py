@@ -30,9 +30,17 @@ class Record():
                      "status": self.status, "tags": self.tags, "metadata": self.metadata
                      }
         return inspector
-    def to_dict():
-        pass
-
+    def to_dict(self):
+        entry = {
+        "priority": self.priority, 
+        "status": self.status, 
+        "tags" : self.tags, 
+        "metadata": {
+        "created_by": self.metadata["created_by"],
+        "notes": self.metadata["notes"]}
+        }
+      
+        return entry
 
     def update(self, att, new_value, remove = False):
         if att == "priority":

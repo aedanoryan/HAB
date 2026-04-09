@@ -8,7 +8,7 @@ def create_records(file_path: Path):
 
     for record_name, record_content in record_dict.items():
         records[record_name] = Record(
-            record_content["name"],
+            record_name,
             record_content["priority"],
             record_content["status"],
             record_content["tags"],

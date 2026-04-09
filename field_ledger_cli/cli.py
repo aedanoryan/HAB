@@ -4,6 +4,7 @@ from class_def import Record, RecordCollection
 
 from create_records import create_records
 
+from load_save import save_file
 
 def build_parser():
     parser = argparse.ArgumentParser()
@@ -26,8 +27,8 @@ def build_parser():
 
     return parser
 
-def add_helper(attr, cast:str, lower=False):
-    raw = input(f"Select value for {attr}: > ")
+def prompt_value(prompt, cast:str, lower=False):
+    raw = input(prompt)
 
     if lower:
         raw = raw.lower()
@@ -38,7 +39,37 @@ def add_helper(attr, cast:str, lower=False):
     except ValueError:
         print("Please select valid value")
         return "retry"
+    
+def prompt_tags():
+    tags = []
 
+    print("Enter tags one at a time. Type 'done' when finished")
+    while True:
+        raw = input("Enter tag: > ").lower()
+        if raw == "cancel":
+            return None
+        if raw =="done":
+            return tags
+        if raw == "":
+            print("tags cannot be empty")
+            continue
+        if raw in tags:
+            print("Tag already exists")
+            continue
+        tags.append(raw)
+
+def prompt_metadata():
+    print("Enter metadata values")
+
+    created_by = input("created_by: >").lower()
+    if created_by == "cancel":
+        return None
+    
+    notes = input("notes: >").lower()
+    if notes == "cancel":
+        return None
+    
+    return {"created_by": created_by, "notes": notes}
 
 def main(argv):
     parser = build_parser()
@@ -74,23 +105,23 @@ def main(argv):
     if args.cmd == "add":
 
         while True:
-            name = add_helper("name", str, lower = True)
+            name = prompt_value("Select value for name", str, lower = True)
             if name is None:
                 return
             if name == "retry":
                 continue
             break
         while True:
-            priority = add_helper("priority", int)
+            priority =  prompt_value("Select value for priority", int)
             if priority is None:
                 return
-            if name == "retry":
+            if priority == "retry":
                 continue
             break            
     
 
         while True:
-            status= add_helper("status", str, lower = True)
+            status=  prompt_value("Select value for status ", str, lower = True)
             if status is None:
                 return
             if status == "retry":
@@ -98,23 +129,17 @@ def main(argv):
             break
         
 
-        while True:
-            tags = add_helper("name", list)
-            if tags is None:
-                return
-            if tags == "retry":
-                continue
-            break
-
-        while True:
-            metadata = add_helper("metadata", dict)
-            if metadata is None:
-                return
-            if metadata == "retry":
-                continue
-            break
+        tags =  prompt_tags()
+        if tags == None:
+            return
+        
+        metadata = prompt_metadata()
+        if metadata == None:
+            return
             
         collection.add(name, priority, status, tags, metadata)
+        
+        save_file(args.root, collection)
         print(f"The record {name} has been added")
 
 
@@ -134,8 +159,9 @@ def main(argv):
             return
         if confirm == "Y":
             collection.remove(removed)
+        save_file(args.root, collection)
         print(f"{removed} successfully removed")
-
+        
 
     if args.cmd == "update":
         print("Here are the following records")
@@ -157,14 +183,23 @@ def main(argv):
             if att not in ("name","priority", "status", "tags", "metadata"):
                 print("select valid attribute")
             if att == "name":
-                new_name = input("Select new name for record: >")
-                collection.name_change(current, new_name, remove = False)
+                new_name = input("Select new name for record: >").lower()
+                if new_name == "cancel":
+                    return                 
+                collection.name_change(current, new_name)
+                break
             elif att == "priority":
                 new_prior = input("Select priority change: >")
+                if new_prior == "cancel":
+                    return                 
                 up_rec.update(att, (int(new_prior)), remove = False)
+                break
             elif att == "status":
                 new_status = input("Select status change").lower()
+                if new_status == "cancel":
+                    return
                 up_rec.update(att, str(new_status), remove = False)
+                break
             elif att == "tags":
                 done = False
                 while done == False:
@@ -172,30 +207,41 @@ def main(argv):
                     print(up_rec.tags)
                     while True:
                         r = input("Do you want to remove any tags? Y or N: >").upper()
+                        if r == "CANCEL":
+                            return
                         if r == "N":
                             break
                         if r == "Y":
                             while True:    
                                 axed = input("Selected a tag to remove: >").lower()
+                                if axed == "cancel":
+                                    return
                                 if axed in up_rec.tags:
                                     up_rec.update(att, axed, remove = True)
                                     break
                                 else:
                                     print("Please select a valid tag")
-
+                
                         print("Please enter 'Y' or 'N'")
+                
                     while True:
                         a = input("Do you want to add any tags? Y or N: >").upper()
+                        if a == "CANCEL":
+                            return                        
                         if a == "N":
                             break
                         if a == "Y":
                             while True:
                                 added = input("What new tag would you like to enter?: >").lower()
+                                if added == "cancel":
+                                    return
                                 up_rec.update(att, added, remove = False)
                                 break
                         print("Please enter 'Y' or ''N")
                     while True:
                         finish = input("Finish updating tags? Y or N: >").upper()
+                        if finish == "CANCEL":
+                            return                        
                         if finish == "N":
                            break
                         if finish == "Y":
@@ -203,7 +249,7 @@ def main(argv):
                             break
                         if finish not in ("N", "Y"):
                             print("Please enter 'Y' or 'N'")
-
+                break
 
             elif att == "metadata":
                 while True:
@@ -218,8 +264,16 @@ def main(argv):
                             new_value = input("Select a new value for 'notes': >").lower()
                             new_pair = {which: new_value}
                             up_rec.update(att, new_pair, remove = False)
+                            break
+                    elif which == "cancel":
+                        return
                     else:
                         print("Please select between 'created_by' and 'notes'")
+
+            else:
+                print("Please select a valid attribute")
+
+        save_file(args.root, collection)
                     
 
             
