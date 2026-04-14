@@ -1,22 +1,34 @@
 
 class RecordCollection():
-    def __init__(self, collection):
+    def __init__(self, collection: dict):
         self.collection = collection
     
     def add_record(self, name, priority, status, tags, metadata, links):
         self.collection[name] = Record(name, priority, status, tags, metadata, links)
 
     def remove_record(self, rem):
+        for entry in self.collection.values():
+            if rem in entry.links:
+                print("Cannot delete this record; it is still referenced by another record.")
+                return
         del self.collection[rem]
+            
+            
+            
+                
 
 
 
 
 
-    def rename(self, old_name, new_name):
+    def rename(self, old_name:str, new_name:str):
         self.collection[new_name] = self.collection[old_name]
         del self.collection[old_name]
         self.collection[new_name].update("name", new_name)
+        for entry in self.collection.values():
+            entry.links = [new_name if link == old_name else link for link in entry.links]
+
+
 
 
 class Record:
@@ -45,7 +57,8 @@ class Record:
         "priority": self.priority, 
         "status": self.status, 
         "tags" : self.tags, 
-        "metadata": self.metadata
+        "metadata": self.metadata,
+        "links": self.links
         }
         return inspector
 

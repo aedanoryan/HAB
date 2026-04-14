@@ -34,10 +34,14 @@ def value_prompt(prompt:str, cast:str, lower=False):
         except ValueError:
             print("Invalid input")
 
-def list_prompt(list_name: str):
+def list_prompt(list_name: str, records: RecordCollection, links = False):
     list = []
     while True:
         new = input(f"Enter new {list_name} one at a time; enter 'done' when finished >").lower()
+        if links == True:
+            if new not in records.collection:
+                print("Link must point to valid record")
+                continue
         if new in list:
             print(f"Entry already in {list_name}")
             continue
@@ -54,7 +58,7 @@ def meta_prompt():
     cb = input("Enter value for metadata - created_by:> ").lower()
     notes = input("Enter value for metadata - notes: >").lower()
     return  {"created_by" : cb, "notes": notes}
-
+    
 
 
 
@@ -83,13 +87,19 @@ def main(argv):
 
         inspector = record.inspect()
 
+        point_to = []
+        for name, entry in records.collection.items():
+            if insp in entry.links:
+                    point_to.append(name)
+
         print(f'The attributes for {insp} are as follows: ')
         print(f'Priority = {inspector["priority"]}')
         print(f'Status = {inspector["status"]}')
         print(f'Tags = {inspector["tags"]}')
         print(f'Metadata - created_by = {inspector["metadata"]["created_by"]}')
         print(f'Metadata - notes = {inspector["metadata"]["notes"]}')
-
+        print(f'This record points to these records: {inspector["links"]}')
+        print(f'These other records point to this record: {point_to}')
 
 
 
@@ -99,9 +109,9 @@ def main(argv):
         name = value_prompt("Please enter name for new record: >", str, lower=True)
         priority = value_prompt("Please enter priority for new record: >", int)
         status = value_prompt("Please enter status for new record: >",str, lower=True)
-        tags = list_prompt("tags")
+        tags = list_prompt("tags", records, link = False)
         meta = meta_prompt()
-        links = list_prompt("links")
+        links = list_prompt("links", records, link = True)
 
         records.add_record(name, priority, status, tags, meta, links)
 
@@ -250,6 +260,9 @@ def main(argv):
                         elif check_add == "Y":
                             while True:
                                 new_link = input("Enter new link")
+                                if new_link not in records.collection:
+                                    print("Not a valid record to which this record can link")
+                                    continue
                                 if new_link in up_links:
                                     print("Entry already in links")
                                     continue
