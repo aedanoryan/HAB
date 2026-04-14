@@ -1,0 +1,42 @@
+{
+    "alpha_report": {
+        "priority": 2,
+        "status": "open",
+        "tags": ["field", "urgent"],
+        "metadata": {
+            "created_by": "aedan",
+            "notes": "Initial scouting complete"
+        },
+        "links": ["beta_log", "gamma_entry"]
+    },
+    "beta_log": {
+        "priority": 1,
+        "status": "in_progress",
+        "tags": ["maintenance"],
+        "metadata": {
+            "created_by": "sam",
+            "notes": "Awaiting replacement parts"
+        },
+        "links": ["gamma_entry"]
+    },
+    "gamma_entry": {
+        "priority": 3,
+        "status": "closed",
+        "tags": ["resolved"],
+        "metadata": {
+            "created_by": "lee",
+            "notes": "Issue resolved without escalation"
+        },
+        "links": []
+    },
+    "delta_ticket": {
+        "priority": 2,
+        "status": "open",
+        "tags": ["followup"],
+        "metadata": {
+            "created_by": "mira",
+            "notes": "Needs review after beta_log is complete"
+        },
+        "links": ["beta_log"]
+    }
+}
